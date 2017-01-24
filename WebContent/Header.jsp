@@ -1,9 +1,9 @@
-<%@page import="kr.co.daou.vo.Member"%>
+<%@page import="vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:useBean id="member"
   scope="session"
-  class="kr.co.daou.vo.Member"/>
+  class="vo.Member"/>
 <div style="background-color:#00008b;color:#ffffff;height:20px;padding: 5px;">
 Simple MVC Pattern Project
 <% if (member.getEmail() != null) { %>
