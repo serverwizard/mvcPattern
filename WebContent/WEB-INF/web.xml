@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name>MVCPattern</display-name>
 
-	<!-- 컨텍스트 초기화 파라미터 -->
+	<!-- 컨텍스트 초기화 파라미터 
 	<context-param>
 		<param-name>driver</param-name>
 		<param-value>com.mysql.jdbc.Driver</param-value>
@@ -19,7 +19,14 @@
 		<param-name>password</param-name>
 		<param-value>daou</param-value>
 	</context-param>
+-->
 
+	<!-- 톰켓 서버에 설정한 DataSource를 참조하기위한 과정 -->
+	<resource-ref>
+		<res-ref-name>jdbc/daoudb</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 	<!-- 필터 선언 
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>

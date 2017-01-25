@@ -13,7 +13,8 @@ public class DBConnectionPool {
 
 	  public DBConnectionPool(String driver, String url, 
 		      String username, String password) throws Exception {
-		    this.url = url;
+		    
+		  this.url = url;
 		    this.username = username;
 		    this.password = password;
 		    
