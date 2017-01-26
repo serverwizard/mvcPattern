@@ -1,4 +1,4 @@
-package servlets;
+package controls;
 
 import java.io.IOException;
 import java.sql.Connection;

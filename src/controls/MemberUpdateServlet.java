@@ -1,4 +1,4 @@
-package servlets;
+package controls;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,16 +33,11 @@ public class MemberUpdateServlet extends HttpServlet {
 					Integer.parseInt(request.getParameter("no")));
 
 			request.setAttribute("member", member);
-
-			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberUpdateForm.jsp");
-			rd.forward(request, response);
+			request.setAttribute("viewURL", "/member/MemberUpdateForm.jsp");
+	
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-
-			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
-			rd.forward(request, response);
+			throw new ServletException(e);
 		} 
 	}
 	
@@ -65,13 +60,11 @@ public class MemberUpdateServlet extends HttpServlet {
 					 .setName(request.getParameter("name"))
 					 .setEmail(request.getParameter("email")));
 
+			request.setAttribute("viewURL", "redirect:list.do");
 			response.sendRedirect("list");
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
-			rd.forward(request, response);
+			throw new ServletException(e);
 			
 		} 
 	}

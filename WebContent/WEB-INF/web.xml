@@ -27,6 +27,7 @@
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
+	
 	<!-- 필터 선언 
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
@@ -45,7 +46,7 @@
  	-->
  	
  	
- 		<!-- 리스너 선언 -->
+ 	<!-- 리스너 선언 -->
 	<listener>
 		<listener-class>listeners.ContextLoaderListener</listener-class>
 	</listener>
@@ -58,7 +59,8 @@
 		<load-on-startup>1</load-on-startup>
 
 	</servlet>
-  -->
+ 	 -->
+ 	 
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

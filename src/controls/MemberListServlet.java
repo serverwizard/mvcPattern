@@ -1,4 +1,4 @@
-package servlets;
+package controls;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.MemberDao;
 import vo.Member;
 
+// 프런트 컨트롤러 
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet {
 	
@@ -36,21 +37,15 @@ public class MemberListServlet extends HttpServlet {
 			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
 			
 			request.setAttribute("members", memberDao.selectList());
+			request.setAttribute("viewURL", "/member/MemberList.jsp");
+
 			
-			response.setContentType("text/html; charset=UTF-8");	
-			RequestDispatcher rd = request.getRequestDispatcher(
-					"/member/MemberList.jsp");
-			
-			rd.include(request, response);
-		
 		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
-			rd.forward(request, response);
+			// service() 메소드는 ServletException을 던지도록 설정
+			// 기존 예외 객체를 던질 수 없다.
+			throw new ServletException(e);
 		} 
 
 	}
-
 
 }
