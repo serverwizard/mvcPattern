@@ -18,7 +18,7 @@ import vo.Member;
 
 @SuppressWarnings("serial")
 @WebServlet("/member/update")
-public class MemberUpdateServlet extends HttpServlet {
+public class MemberUpdateController extends HttpServlet {
 	
 	@Override
 	protected void doGet(

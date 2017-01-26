@@ -1,16 +1,12 @@
 package controls;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,7 +15,7 @@ import dao.MemberDao;
 import vo.Member;
 
 @WebServlet("/auth/login")
-public class LogInServlet extends HttpServlet {
+public class LogInController implements Controller {
 
 	/**
 	 * 
@@ -59,6 +55,18 @@ public class LogInServlet extends HttpServlet {
 			throw new ServletException(e);
 			
 		} 
+	}
+
+	@Override
+	public String execute(Map<String, Object> model) throws Exception {
+		MemberDao memberDao = (MemberDao) model.get("memberDao");
+		Member loginInfo = (Member) model.get("loginInfo");
+		
+		Menber member = memberDao.exist(
+				  loginInfo.getEmail(), 
+		          loginInfo.getPassword());
+		
+		return null;
 	}
 
 }
