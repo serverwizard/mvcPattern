@@ -33,8 +33,7 @@ public class DBConnectionPool {
 		}
 	    return DriverManager.getConnection(url, username, password);
 	  }
-	
-	// 커넥션 객체 반환
+
 	public void returnConnection(Connection conn) throws Exception {
 		connList.add(conn);
 	}

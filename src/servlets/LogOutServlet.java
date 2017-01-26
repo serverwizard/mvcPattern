@@ -22,9 +22,10 @@ public class LogOutServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
+		// Session 객체 무효화
 		session.invalidate();
 
-		response.sendRedirect("/login");
+		response.sendRedirect("login");
 
 	}
 

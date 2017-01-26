@@ -36,41 +36,16 @@ public class LogInServlet extends HttpServlet {
 	@Override
 	protected void doPost(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
+
 		try {
 			ServletContext sc = this.getServletContext();
 			
-			// AppInitServlet에서 작업
-//			Class.forName(sc.getInitParameter("driver"));
-//			DriverManager.getConnection(
-//					sc.getInitParameter("url"),
-//					sc.getInitParameter("username"),
-//					sc.getInitParameter("password")); 
-			
-			//Connection conn = (Connection) sc.getAttribute("conn"); 
-			
 			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
-//			memberDao.setConnection(conn);
-		      Member member = memberDao.exist(
+		    Member member = memberDao.exist(
 		              request.getParameter("email"), 
 		              request.getParameter("password"));
-		
-			//MemberDao에서 처리
-//			pstmt = conn.prepareStatement(
-//					"SELECT MNAME,EMAIL FROM MEMBERS"
-//					+ " WHERE EMAIL=? AND PWD=?");
-//			pstmt.setString(1, request.getParameter("email"));
-//			pstmt.setString(2, request.getParameter("password"));
-//			rs = pstmt.executeQuery();
-//			
-//			if (rs.next()) {
-			if (member != null) {
-//				Member member = new Member()
-//						.setEmail(rs.getString("EMAIL"))
-//						.setName(rs.getString("MNAME"));
-				
+
+		    if (member != null) {	
 				HttpSession session = request.getSession();
 				session.setAttribute("member", member);
 				response.sendRedirect("../member/list");
@@ -84,13 +59,6 @@ public class LogInServlet extends HttpServlet {
 			throw new ServletException(e);
 			
 		} 
-		
-//		finally {
-//			try {if (rs != null) rs.close();} catch (Exception e) {}
-//			try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
-//		}
-
-
 	}
 
 }

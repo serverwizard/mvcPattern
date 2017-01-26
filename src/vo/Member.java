@@ -2,6 +2,7 @@ package vo;
 
 import java.util.Date;
 
+// Value Object
 public class Member {
 	private int no;
 	private String name;
@@ -28,8 +29,6 @@ public class Member {
 		return this;
 	}
 
-	
-	
 	public String getPassword() {
 		return password;
 	}
