@@ -40,14 +40,10 @@ public class DispatcherServlet extends HttpServlet {
 			ServletContext sc = this.getServletContext();
 			
 			HashMap<String, Object> model = new HashMap<String, Object>();
-			model.put("memberDao", sc.getAttribute("memberDao"));
 			model.put("session", request.getSession());
 			
-			Controller pageController = null;
-			if ("/member/list.do".equals(servletPath)) {
-				pageController = new MemberListController();
-			} else if ("/member/add.do".equals(servletPath)) {
-				pageController = new MemberAddController();
+			Controller pageController = (Controller) sc.getAttribute(servletPath);
+			if ("/member/add.do".equals(servletPath)) {
 				if (request.getParameter("email") != null) {
 					// request 매개변수 로부터 vo객체 준비
 					model.put("member", new Member()
@@ -56,7 +52,6 @@ public class DispatcherServlet extends HttpServlet {
 							.setName(request.getParameter("name")));
 				}
 			} else if ("/member/update.do".equals(servletPath)) {
-				pageController = new MemberUpdateController();
 				if (request.getParameter("email") != null) {
 					// request 매개변수 로부터 vo객체 준비
 					model.put("member", new Member()
@@ -67,19 +62,14 @@ public class DispatcherServlet extends HttpServlet {
 					model.put("no", new Integer(request.getParameter("no")));
 				}
 			} else if ("/member/delete.do".equals(servletPath)) {
-				pageController = new MemberDeleteController();
 				model.put("no", new Integer(request.getParameter("no")));
 			} else if ("/auth/login.do".equals(servletPath)) {
-				pageController = new LogInController();
 				 if (request.getParameter("email") != null) {
 			          model.put("loginInfo", new Member()
 			            .setEmail(request.getParameter("email"))
 			            .setPassword(request.getParameter("password")));
 			        }
-			} else if ("/auth/logout.do".equals(servletPath)) {
-				pageController = new LogOutController();
 			} else if ("/file/upload.do".equals(servletPath)) {
-				pageController = new FileUploadController();
 				
 				String contextRootPath = this.getServletContext().getRealPath("/"); // 파일 저장경로
 				model.put("contextRootPath", contextRootPath);
@@ -93,7 +83,7 @@ public class DispatcherServlet extends HttpServlet {
 				
 				model.put("multiObj", multiObj);
 						
-			}
+			} 
 
 			// 페이지 컨트롤러를 실행
 			String viewURL = pageController.execute(model);

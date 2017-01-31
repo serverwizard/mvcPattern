@@ -5,9 +5,19 @@ import java.util.Map;
 
 import com.oreilly.servlet.MultipartRequest;
 
+import dao.MemberDao;
+import vo.Member;
+
 //브라우저로부터 전달받은 파일 저장.
 public class FileUploadController implements Controller{
-
+	
+	MemberDao memberDao;
+	
+	public FileUploadController setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+		return this;
+	}
+	
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
 		
@@ -17,10 +27,12 @@ public class FileUploadController implements Controller{
 	
 		MultipartRequest multi = (MultipartRequest) model.get("multiObj");
 		// 파일 이름을 받아올때는 MultipartRequest 의 getFileSystemName 메서드를 사용한다.
-		String uploadFile = multi.getFilesystemName("photo");
+		String fileName = multi.getFilesystemName("photo");
 		
-		File file = new File(contextRootPath + uploadFile);
-
+		String path = contextRootPath + fileName;
+		memberDao.imageUpload(path);
+		File file = new File(path);
+		
 		return "redirect:../index.html";
 	}
 }

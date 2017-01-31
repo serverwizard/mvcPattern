@@ -179,4 +179,57 @@ public class MemberDao {
 		      try {if (connection != null) connection.close();} catch(Exception e) {}
 		    }
 	  }
+	  
+	  public int imageUpload(String url)throws Exception {
+		  Connection connection = null;
+		  PreparedStatement stmt = null;
+
+	    try {
+			connection = ds.getConnection();
+			stmt = connection.prepareStatement(
+					"INSERT INTO IMAGE_UPLOAD("
+					+ "URL,CRE_DATE,MOD_DATE)" 
+					+ " VALUES (?,NOW(),NOW())");
+			stmt.setString(1, url);
+			return stmt.executeUpdate();
+
+	    } catch (Exception e) {
+	      throw e;
+
+	    } finally {
+	      try {if (stmt != null) stmt.close();} catch(Exception e) {}
+	      try {if (connection != null) connection.close();} catch(Exception e) {}
+	    }
+	  }
+	  
+	  public String imageRead() throws Exception {
+		    Connection connection = null;
+		    Statement stmt = null;
+		    ResultSet rs = null;
+
+		try {
+			connection = ds.getConnection();
+			stmt = connection.createStatement();
+
+			rs = stmt.executeQuery("SELECT MNO,MNAME,EMAIL,CRE_DATE" + " FROM MEMBERS" + " ORDER BY MNO ASC");
+
+			ArrayList<Member> members = new ArrayList<Member>();
+
+			while (rs.next()) {
+				members.add(new Member()
+						.setNo(rs.getInt("MNO"))
+						.setName(rs.getString("MNAME"))
+						.setEmail(rs.getString("EMAIL"))
+						.setCreatedDate(rs.getDate("CRE_DATE")));
+			}
+
+			return members;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			 try {if (rs != null) rs.close();} catch(Exception e) {}
+		     try {if (stmt != null) stmt.close();} catch(Exception e) {}
+		     try {if (connection != null) connection.close();} catch(Exception e) {}
+		}
+	  }
 }
