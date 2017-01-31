@@ -3,69 +3,32 @@ package controls;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Map;
 
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.MemberDao;
 import vo.Member;
 
-@SuppressWarnings("serial")
-@WebServlet("/member/update")
-public class MemberUpdateController extends HttpServlet {
+public class MemberUpdateController implements Controller {
 	
 	@Override
-	protected void doGet(
-			HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String execute(Map<String, Object> model) throws Exception {
+		MemberDao memberDao = (MemberDao) model.get("memberDao");
 
-		try {
-			ServletContext sc = this.getServletContext();
-		
-			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
-			Member member = memberDao.selectOne(
-					Integer.parseInt(request.getParameter("no")));
+		if (model.get("member") == null) {
+			Integer no = (Integer) model.get("no");
+			Member member = memberDao.selectOne(no);
+			model.put("member", member);
+			return "/member/MemberUpdateForm.jsp";
 
-			request.setAttribute("member", member);
-			request.setAttribute("viewURL", "/member/MemberUpdateForm.jsp");
-	
-			
-		} catch (Exception e) {
-			throw new ServletException(e);
-		} 
-	}
-	
-	@Override
-	protected void doPost(
-			HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		Connection conn = null;
-		PreparedStatement stmt = null;
-
-		try {
-			ServletContext sc = this.getServletContext();
-						
-			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
-			
-			memberDao.updeate(
-					new Member()
-					 .setNo(Integer.parseInt(request.getParameter("no")))
-					 .setName(request.getParameter("name"))
-					 .setEmail(request.getParameter("email")));
-
-			request.setAttribute("viewURL", "redirect:list.do");
-			response.sendRedirect("list");
-
-		} catch (Exception e) {
-			throw new ServletException(e);
-			
-		} 
+		} else {
+			Member member = (Member) model.get("member");
+			memberDao.update(member);
+			return "redirect:list.do";
+		}
 	}
 }

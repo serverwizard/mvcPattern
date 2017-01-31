@@ -3,6 +3,7 @@ package controls;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,27 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.MemberDao;
 
-@WebServlet("/member/delete")
-public class MemberDeleteController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class MemberDeleteController implements Controller {
 
 	@Override
-	public void doGet(
-			HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		try {
-			ServletContext sc = this.getServletContext();
-			
-			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
-			memberDao.delete(Integer.parseInt(request.getParameter("no")));
-			
-			request.setAttribute("viewURL", "redirect:list.do");
-
-			
-		} catch (Exception e) {
-			throw new ServletException(e);
-		} 
-
+	public String execute(Map<String, Object> model) throws Exception {
+		
+		MemberDao memberDao = (MemberDao) model.get("memberDao");
+	    Integer no = (Integer)model.get("no");
+		memberDao.delete(no);
+		
+		return "redirect:list.do";
 	}
 }

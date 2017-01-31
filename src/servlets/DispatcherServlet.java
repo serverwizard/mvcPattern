@@ -12,7 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controls.Controller;
+import controls.LogInController;
+import controls.LogOutController;
+import controls.MemberAddController;
+import controls.MemberDeleteController;
 import controls.MemberListController;
+import controls.MemberUpdateController;
 import vo.Member;
 
 // 프런트 컨트롤러 역할: 클라이언트 요청을 적절한 페이지 컨트롤러에게 전달
@@ -21,8 +26,7 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-			// 응답 데이터의 문자 집합
+			// 응답 데이터의 문자 집합(공통 작업)
 			response.setContentType("text/html; charset=UTF-8");
 	
 			// url : http://localhost:8080/MVCPattern/member/list.do
@@ -37,32 +41,24 @@ public class DispatcherServlet extends HttpServlet {
 			
 			Controller pageController = null;
 			if ("/member/list.do".equals(servletPath)) {
-
 				pageController = new MemberListController();
-
 			} else if ("/member/add.do".equals(servletPath)) {
 				pageController = new MemberAddController();
-
 				if (request.getParameter("email") != null) {
-					
 					// request 매개변수 로부터 vo객체 준비
 					model.put("member", new Member()
 							.setEmail(request.getParameter("email"))
 							.setPassword(request.getParameter("password"))
 							.setName(request.getParameter("name")));
-					
 				}
 			} else if ("/member/update.do".equals(servletPath)) {
 				pageController = new MemberUpdateController();
-
 				if (request.getParameter("email") != null) {
-				
 					// request 매개변수 로부터 vo객체 준비
 					model.put("member", new Member()
 							.setNo(Integer.parseInt(request.getParameter("no")))
 							.setEmail(request.getParameter("email"))
 							.setName(request.getParameter("name")));
-					
 				} else {
 					model.put("no", new Integer(request.getParameter("no")));
 				}
@@ -77,14 +73,9 @@ public class DispatcherServlet extends HttpServlet {
 			            .setPassword(request.getParameter("password")));
 			        }
 			} else if ("/auth/logout.do".equals(servletPath)) {
-				pageController = new LoutOutController();
+				pageController = new LogOutController();
 			}
 
-//			RequestDispatcher rd = request.getRequestDispatcher(pageControllerPath);
-//			rd.include(request, response);
-//
-//			String viewURL = (String) request.getAttribute("viewURL");
-			
 			// 페이지 컨트롤러를 실행
 			String viewURL = pageController.execute(model);
 
@@ -97,7 +88,7 @@ public class DispatcherServlet extends HttpServlet {
 				response.sendRedirect(viewURL.substring(9));
 				return;
 			} else {
-				rd = request.getRequestDispatcher(viewURL);
+				RequestDispatcher rd = request.getRequestDispatcher(viewURL);
 				rd.include(request, response);
 			}
 		} catch (Exception e) {

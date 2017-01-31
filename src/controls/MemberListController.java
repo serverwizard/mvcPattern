@@ -20,13 +20,7 @@ import dao.MemberDao;
 import vo.Member;
 
 // 프런트 컨트롤러 
-@WebServlet("/member/list")
 public class MemberListController implements Controller {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {

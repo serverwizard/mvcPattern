@@ -1,6 +1,7 @@
 package controls;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,24 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/auth/logout")
-public class LogOutController extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class LogOutController implements Controller {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
-		// Session 객체 무효화
+	public String execute(Map<String, Object> model) throws Exception {
+		HttpSession session = (HttpSession) model.get("session");
+		// session객체 무효화
 		session.invalidate();
-
-		response.sendRedirect("login");
-
+		
+		return "redirect:login.do";
 	}
 
 }

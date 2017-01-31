@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -19,33 +20,18 @@ import vo.Member;
 
 // 프런트 컨트롤러
 @WebServlet("/member/add")
-public class MemberAddController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class MemberAddController implements Controller {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-				
-		request.setAttribute("viewURL", "/member/MemberForm.jsp");
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-
-		try {
-			ServletContext sc = this.getServletContext();
-						
-			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
-			Member member = (Member) request.getAttribute("member");
+	public String execute(Map<String, Object> model) throws Exception {
+		if(model.get("member") == null){ // 입력폼을 요청할 때
+			return "/member/MemberForm.jsp";
+		} else { // 회원 등록을 요청할 때
+			MemberDao memberDao = (MemberDao) model.get("memberDao");
+			Member member = (Member) model.get("member");
 			memberDao.insert(member);
 			
-			request.setAttribute("viewURL", "redirect:list.do");
-			
-			
-			} catch (Exception e) {
-				throw new ServletException(e);
-			} 
-		
+			return "redirect:list.do";
+		}
 	}
 }

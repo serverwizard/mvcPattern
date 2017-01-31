@@ -95,7 +95,7 @@ public class MemberDao {
 		}
 	} // end of delete();
 	
-	public int updeate(Member member) throws Exception {
+	public int update(Member member) throws Exception {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		
