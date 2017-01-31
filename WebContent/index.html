@@ -2,9 +2,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>jquery-ajax-form-submit/</title>
+<!-- jQuery import -->
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- jQuery MultiFile Plugin import -->
+<script src="js/jQuery.MultiFile.min.js"></script>
+<script>
+	//wait for document to load
+	$(document).ready(function() {
+		// $file prints the file name
+		// $ext prints the file extension
+		// invoke plugin
+		$('#photo').MultiFile({
+			max : 3, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+			accept : 'jpg|png|gif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+			maxfile : 390, //각 파일 최대 업로드 크기 (KB)
+			maxsize : 500, //전체 파일 최대 업로드 크기 (KB)
+			STRING : { //Multi-lingual support : 메시지 수정 가능
+				remove : '<img src="images/deleteIcon.jpg" height="16" width="16" alt="x"/>', //삭제 이미지아이콘으로도 바꿀수 있다(이미지 태그 넣으면 됨).
+				denied : "$ext 는(은) 업로드 할수 없는 파일확장자입니다.",
+				selected : '$file 을 선택했습니다.',
+				toomuch : "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+				toomany : "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+				toobig : "$file 은 크기가 매우 큽니다. ($size)",
+				duplicate : "$file 은 이미 선택된 파일입니다."
+			}
+		});
+	});
+</script>
 </head>
 <body>
-
+	<form action="file/upload.do" method="post" enctype="multipart/form-data">
+		<p><input multiple type="file" id="photo" name="photo" class="with-preview" /></p>
+		<input type="submit" value="추가"><br>
+	</form>
 </body>
 </html>

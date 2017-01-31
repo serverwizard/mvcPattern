@@ -12,12 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controls.Controller;
+import controls.FileUploadController;
 import controls.LogInController;
 import controls.LogOutController;
 import controls.MemberAddController;
 import controls.MemberDeleteController;
 import controls.MemberListController;
 import controls.MemberUpdateController;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import vo.Member;
 
 // 프런트 컨트롤러 역할: 클라이언트 요청을 적절한 페이지 컨트롤러에게 전달
@@ -74,6 +78,21 @@ public class DispatcherServlet extends HttpServlet {
 			        }
 			} else if ("/auth/logout.do".equals(servletPath)) {
 				pageController = new LogOutController();
+			} else if ("/file/upload.do".equals(servletPath)) {
+				pageController = new FileUploadController();
+				
+				String contextRootPath = this.getServletContext().getRealPath("/"); // 파일 저장경로
+				model.put("contextRootPath", contextRootPath);
+				
+				int maxSize = 3 * 1024 * 1024; // 파일업로드 용량 제한(3MB) - 기본단위 Byte
+				String format = "UTF-8";
+				
+				// DefaultFileRenamePolicy객체는 파일이 중복되면 이름을 바꿔 1 2 3 으로 파일이름을 변경
+				MultipartRequest multiObj = new MultipartRequest(request, contextRootPath, maxSize, format,
+						new DefaultFileRenamePolicy());
+				
+				model.put("multiObj", multiObj);
+						
 			}
 
 			// 페이지 컨트롤러를 실행
