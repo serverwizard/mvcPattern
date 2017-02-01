@@ -3,7 +3,7 @@ package vo;
 import java.util.Date;
 
 //Value Object
-public class Image {
+public class ImageFile {
 	private int no;
 	private String url;
 	private Date createdDate;
@@ -13,7 +13,7 @@ public class Image {
 		return no;
 	}
 
-	public Image setNo(int no) {
+	public ImageFile setNo(int no) {
 		this.no = no;
 		return this;
 	}
@@ -22,26 +22,8 @@ public class Image {
 		return url;
 	}
 
-	public Image setURL(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public Image setPassword(String password) {
-		this.password = password;
-		return this;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public Image setEmail(String email) {
-		this.email = email;
+	public ImageFile setURL(String url) {
+		this.url = url;
 		return this;
 	}
 
@@ -49,7 +31,7 @@ public class Image {
 		return createdDate;
 	}
 
-	public Image setCreatedDate(Date createdDate) {
+	public ImageFile setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 		return this;
 	}
@@ -58,8 +40,9 @@ public class Image {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public ImageFile setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+		return this;
 	}
 
 }

@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import util.DBConnectionPool;
+import vo.ImageFile;
 import vo.Member;
 
 // Data Access Object
@@ -187,7 +189,7 @@ public class MemberDao {
 	    try {
 			connection = ds.getConnection();
 			stmt = connection.prepareStatement(
-					"INSERT INTO IMAGE_UPLOAD("
+					"INSERT INTO IMAGES("
 					+ "URL,CRE_DATE,MOD_DATE)" 
 					+ " VALUES (?,NOW(),NOW())");
 			stmt.setString(1, url);
@@ -202,7 +204,7 @@ public class MemberDao {
 	    }
 	  }
 	  
-	  public String imageRead() throws Exception {
+	  public List<ImageFile> imageRead() throws Exception {
 		    Connection connection = null;
 		    Statement stmt = null;
 		    ResultSet rs = null;
@@ -211,19 +213,19 @@ public class MemberDao {
 			connection = ds.getConnection();
 			stmt = connection.createStatement();
 
-			rs = stmt.executeQuery("SELECT MNO,MNAME,EMAIL,CRE_DATE" + " FROM MEMBERS" + " ORDER BY MNO ASC");
+			rs = stmt.executeQuery("SELECT MNO,URL,CRE_DATE,MOD_DATE FROM IMAGES ORDER BY MNO ASC");
 
-			ArrayList<Member> members = new ArrayList<Member>();
-
+			ArrayList<ImageFile> images = new ArrayList<ImageFile>();
+		
 			while (rs.next()) {
-				members.add(new Member()
+				images.add(new ImageFile()
 						.setNo(rs.getInt("MNO"))
-						.setName(rs.getString("MNAME"))
-						.setEmail(rs.getString("EMAIL"))
-						.setCreatedDate(rs.getDate("CRE_DATE")));
+						.setURL(rs.getString("URL"))
+						.setCreatedDate(rs.getDate("CRE_DATE"))
+						.setModifiedDate(rs.getDate("MOD_DATE")));
 			}
 
-			return members;
+			return images;
 		} catch (SQLException e) {
 			throw e;
 		} finally {

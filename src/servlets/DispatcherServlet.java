@@ -12,13 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controls.Controller;
-import controls.FileUploadController;
-import controls.LogInController;
-import controls.LogOutController;
-import controls.MemberAddController;
-import controls.MemberDeleteController;
-import controls.MemberListController;
-import controls.MemberUpdateController;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -73,18 +66,17 @@ public class DispatcherServlet extends HttpServlet {
 				
 				String contextRootPath = this.getServletContext().getRealPath("/"); // 파일 저장경로
 				model.put("contextRootPath", contextRootPath);
-				
+
 				int maxSize = 3 * 1024 * 1024; // 파일업로드 용량 제한(3MB) - 기본단위 Byte
 				String format = "UTF-8";
 				
 				// DefaultFileRenamePolicy객체는 파일이 중복되면 이름을 바꿔 1 2 3 으로 파일이름을 변경
-				MultipartRequest multiObj = new MultipartRequest(request, contextRootPath, maxSize, format,
-						new DefaultFileRenamePolicy());
-				
-				model.put("multiObj", multiObj);
-						
-			} 
+				MultipartRequest multipartRequest = new MultipartRequest(request, contextRootPath, 
+						maxSize, format, new DefaultFileRenamePolicy());
 
+				model.put("multipartRequest", multipartRequest);
+				
+			} 
 			// 페이지 컨트롤러를 실행
 			String viewURL = pageController.execute(model);
 

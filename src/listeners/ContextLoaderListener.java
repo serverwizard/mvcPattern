@@ -37,7 +37,7 @@ public class ContextLoaderListener implements ServletContextListener {
 			MemberDao memberDao = new MemberDao();
 			memberDao.setDataSource(ds);
 			
-			//페이지 컨트롤러 객체를 ContextLoaderListener에서 준비
+			//페이지 컨트롤러 객체를 ContextLoaderListener에서 준비 (DI 개념)
 			sc.setAttribute("/auth/login.do", 
 					new LogInController().setMemberDao(memberDao));
 			sc.setAttribute("/auth/logout.do", new LogOutController());

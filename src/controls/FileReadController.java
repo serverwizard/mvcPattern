@@ -2,11 +2,13 @@ package controls;
 
 import java.awt.Image;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import dao.MemberDao;
+import vo.ImageFile;
 
 public class FileReadController implements Controller {
 	
@@ -20,10 +22,9 @@ public class FileReadController implements Controller {
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
 
-		File sourceimage = new File("c:\\mypic.jpg");
-		Image image = ImageIO.read(sourceimage);
-		
-		return null;
+		model.put("images", memberDao.imageRead());
+		return "/member/MemberPhoto.jsp";
+
 	}
 
 }
