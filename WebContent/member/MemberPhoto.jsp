@@ -11,11 +11,10 @@
 <jsp:include page="/Header.jsp"/>
 
 <h1>사진목록2</h1>
-<p><a href=''>새로운 사진</a></p>
+<p><a href='../index.html'>새로운 사진</a></p>
 <c:forEach var="image" items="${images}"> 
-${image.no},
-${image.URL}, 
-<img src="${image.URL}" alt="photo" height="100" width="100">, 
+${image.no} 
+<img src="/MVCPattern/${image.URL}" alt="photo" height="100" width="100"> 
 ${image.createdDate}
 <br>
 </c:forEach>

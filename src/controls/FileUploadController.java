@@ -30,9 +30,9 @@ public class FileUploadController implements Controller{
 		String path = contextRootPath + fileName;
 		
 		File file = new File(path);
-		memberDao.imageUpload(path);
+		memberDao.imageUpload(fileName);
 		
-		return "redirect:../index.html";
+		return "redirect:read.do";
 	}
 }
 
